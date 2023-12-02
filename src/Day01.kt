@@ -8,7 +8,7 @@ fun main() {
 
     fun part1(input: List<String>) = input.sumOf { getCalibrationValue(it) }
 
-    fun getCalibrationValueAdvanced(line: String) : Int {
+    fun getCalibrationValueAdvanced(line: String): Int {
         val digits = line.indices.mapNotNull {
             when {
                 line[it].isDigit() -> line[it].digitToInt()
@@ -27,9 +27,7 @@ fun main() {
         return digits.first() * 10 + digits.last()
     }
 
-    fun part2(input: List<String>) =
-        input.sumOf { getCalibrationValueAdvanced(it) }
-
+    fun part2(input: List<String>) = input.sumOf { getCalibrationValueAdvanced(it) }
 
 
     // test if implementation meets criteria from the description, like:
@@ -42,4 +40,5 @@ fun main() {
     val input = readInput("Day01")
     part1(input).println()
     part2(input).println()
+
 }
