@@ -11,7 +11,8 @@ fun main() {
         return maxReds * maxBlues * maxGreens
     }
 
-    fun possibleGame(game: Game): Boolean = game.draws.none { it.redCount > 12 || it.greenCount > 13 || it.blueCount > 14 }
+    fun possibleGame(game: Game): Boolean =
+        game.draws.none { it.redCount > 12 || it.greenCount > 13 || it.blueCount > 14 }
 
     fun parseDrawString(drawString: String): Draw {
         val drawList = drawString.split(",")
