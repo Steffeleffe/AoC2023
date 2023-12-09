@@ -11,19 +11,19 @@ fun main() {
     }
 
     data class Input(
-        val seedToSoil: List<AlmanacRangeMap>,
-        val soilToFertilizer: List<AlmanacRangeMap>,
-        val fertilizerToWater: List<AlmanacRangeMap>,
-        val waterToLight: List<AlmanacRangeMap>,
-        val lightToTemperature: List<AlmanacRangeMap>,
-        val temperatureToHumidity: List<AlmanacRangeMap>,
-        val humidityToLocation: List<AlmanacRangeMap>,
+        val maps: List<List<AlmanacRangeMap>>
     )
 
     fun Input.findMin(seeds: Sequence<Long>): Long {
-        return seeds.map { seedToSoil.lookup(it) }.map { soilToFertilizer.lookup(it) }
-            .map { fertilizerToWater.lookup(it) }.map { waterToLight.lookup(it) }.map { lightToTemperature.lookup(it) }
-            .map { temperatureToHumidity.lookup(it) }.map { humidityToLocation.lookup(it) }.min()
+        return seeds
+            .map { maps[0].lookup(it) }
+            .map { maps[1].lookup(it) }
+            .map { maps[2].lookup(it) }
+            .map { maps[3].lookup(it) }
+            .map { maps[4].lookup(it) }
+            .map { maps[5].lookup(it) }
+            .map { maps[6].lookup(it) }
+            .min()
     }
 
     fun Input.findMin(seedRanges: List<LongRange>): Long {
@@ -44,29 +44,23 @@ fun main() {
     fun parseMap(subList: List<String>): List<AlmanacRangeMap> = subList.map { it.range() }
 
     fun parseInput(input: List<String>): Input {
-        val inputIndexes = mutableListOf<Int>()
-
-        for (i in input.indices) {
-            if (input[i].endsWith("map:")) {
-                inputIndexes.add(i)
+        val maps = input.drop(2)
+            .filterNot { it.endsWith("map:") }
+            .fold(mutableListOf(mutableListOf<AlmanacRangeMap>())) { acc, s ->
+            if (s.isBlank()) {
+                acc.add(mutableListOf())
+            } else {
+                acc.last().add(s.range())
             }
+            acc
         }
-
-        return Input(
-            parseMap(input.subList(inputIndexes[0] + 1, inputIndexes[1] - 1)),
-            parseMap(input.subList(inputIndexes[1] + 1, inputIndexes[2] - 1)),
-            parseMap(input.subList(inputIndexes[2] + 1, inputIndexes[3] - 1)),
-            parseMap(input.subList(inputIndexes[3] + 1, inputIndexes[4] - 1)),
-            parseMap(input.subList(inputIndexes[4] + 1, inputIndexes[5] - 1)),
-            parseMap(input.subList(inputIndexes[5] + 1, inputIndexes[6] - 1)),
-            parseMap(input.subList(inputIndexes[6] + 1, input.size - 1))
-        )
+        return Input(maps).also { it.println() }
     }
 
     fun part1(input: List<String>): Int = parseInput(input).findMin(input[0].seeds().asSequence()).toInt()
 
     fun part2(input: List<String>): Int =
-        parseInput(input).findMin(input[0].seedsRanges()).also { it.println() }.toInt()
+        parseInput(input).findMin(input[0].seedsRanges()).toInt()
 
 
 // test if implementation meets criteria from the description, like:
