@@ -41,8 +41,6 @@ fun main() {
         return AlmanacRangeMap(split[1] until split[1] + split[2], split[0] - split[1])
     }
 
-    fun parseMap(subList: List<String>): List<AlmanacRangeMap> = subList.map { it.range() }
-
     fun parseInput(input: List<String>): Input {
         val maps = input.drop(2)
             .filterNot { it.endsWith("map:") }
@@ -54,7 +52,7 @@ fun main() {
             }
             acc
         }
-        return Input(maps).also { it.println() }
+        return Input(maps)
     }
 
     fun part1(input: List<String>): Int = parseInput(input).findMin(input[0].seeds().asSequence()).toInt()
