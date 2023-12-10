@@ -2,18 +2,9 @@ fun main() {
 
     data class Race(val time: Long, val distance: Long)
 
-    fun Race.winningOptions() : Int {
-        var wins = 0
-        for (i in 1 until time) {
-            val dist = i * (time - i)
-            if (dist > distance) {
-                wins++
-            }
-        }
-        return wins
-    }
+    fun Race.winningOptions() = (1 until time).count { it * (time - it) > distance }
 
-    fun part1(input: List<Race>): Int = input.map { it.winningOptions() }.reduce { acc, i ->  acc * i }
+    fun part1(input: List<Race>): Int = input.map { it.winningOptions() }.fold(1, Int::times)
 
     fun part2(input: Race): Int = input.winningOptions()
 
