@@ -26,3 +26,10 @@ fun checkResult(actual: Int, expected: Int) {
         check(false)
     }
 }
+
+fun checkResult(actual: Long, expected: Long) {
+    if (actual != expected) {
+        println("Expected $expected, but was $actual.")
+        check(false)
+    }
+}
