@@ -92,7 +92,6 @@ fun main() {
             }
 
         }
-
     }
 
     fun parseInput(input: List<String>) = input.map { it.split(" ") }.map { Hand(it[0], it[1].toInt()) }
@@ -107,9 +106,6 @@ fun main() {
             .onEach { println("${it.cards} - ${it.type()}") }.mapIndexed { rank, hand -> (rank + 1) * hand.bid }.sum()
 
 
-    part2(
-        listOf("AA77J 1")
-    )
 // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day07_test")
     checkResult(part1(testInput), 6440)
